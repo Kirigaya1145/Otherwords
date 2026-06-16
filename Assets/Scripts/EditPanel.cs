@@ -1,15 +1,17 @@
 using TMPro;
 using UnityEngine;
-
+using System.Collections.Generic;
 public class EditPanel : MonoBehaviour
 {
+    Dictionary<string, string> dictionary;
     public TMP_Text textWordEn;
     public TMP_InputField inputField;
-    private WordData currentWord;
+    string english;
     private WordRowUI currentRow;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        dictionary = DictionaryManager.instance.dictionary;
         gameObject.SetActive(false);
     }
 
@@ -18,20 +20,21 @@ public class EditPanel : MonoBehaviour
     {
         
     }
-    public void Open(WordData data, WordRowUI row)
+    public void Open(string en, WordRowUI row)
     {
-        currentWord = data;
+        english = en;
         currentRow = row;
-        textWordEn.text = data.wordEn;
-        inputField.text = data.wordId;
+        textWordEn.text = en;
+        inputField.text = dictionary.ContainsKey(en)? dictionary[en] : "???";
 
         gameObject.SetActive(true);
         inputField.Select();
         inputField.ActivateInputField();
     }
+
     public void Save()
     {
-        currentWord.wordId = inputField.text;
+        dictionary[english] = inputField.text;
         if (currentRow != null) currentRow.Refresh();
         gameObject.SetActive(false);
     }

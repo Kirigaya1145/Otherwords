@@ -6,16 +6,25 @@ using System.Collections;
 public class DictionaryManager : MonoBehaviour
 {
     public static DictionaryManager instance;
-    public List<WordData> words = new List<WordData>();
+    public Dictionary<string, string> dictionary = new Dictionary<string, string>();
 
     private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         instance = this;
-        words.Add(new WordData { wordEn = "tree", wordId = "" });
-        words.Add(new WordData { wordEn = "run", wordId = "" });
-        words.Add(new WordData { wordEn = "slay", wordId = "" });
-        words.Add(new WordData { wordEn = "bag", wordId = "" });
-        words.Add(new WordData { wordEn = "horse", wordId = "" });
-        words.Add(new WordData { wordEn = "road", wordId = "" });
+        DontDestroyOnLoad(gameObject);
+
+        dictionary.Add("i", "aku");
+        dictionary.Add("you", "kamu");
+        dictionary.Add("they", "?");
+        dictionary.Add("that", "itu");
+        dictionary.Add("this", "?");
+        dictionary.Add("bag", "?");
+        dictionary.Add("road", "?");
     }
 }

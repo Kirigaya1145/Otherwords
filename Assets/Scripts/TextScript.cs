@@ -4,15 +4,30 @@ using System.Collections.Generic;
 using TMPro;
 public class TextScript : MonoBehaviour
 {
-    Dictionary<string, string> dictionary = new Dictionary<string, string>();
+    Dictionary<string, string> dictionary;
     public Dialogues currentDialogue;
     public int currentIndex = 0;
-    public char[] skipChar = new char[] { ',', '.', ';', ' ', '?', '!' };
+
+    #region Dialog Box
+    public GameObject dialogBox;
+    RectTransform rectTransform;
+    float bYMax;
+    float bXMax;
+    #endregion
+
     public GameObject textItem;
+    public char[] skipChar = new char[] { ',', '.', ';', ' ', '?', '!' };
     public List<GameObject> dialogueTexts = new List<GameObject>();
     void Start()
     {
-        dictionary.Add("you", "kamu");
+        dictionary = DictionaryManager.instance.dictionary;
+        rectTransform = dialogBox.GetComponent<RectTransform>();
+    
+        if (rectTransform != null)
+        {
+            bYMax = rectTransform.rect.height;
+            bXMax = rectTransform.rect.width;
+        }
     }
 
     // Update is called once per frame
@@ -43,24 +58,37 @@ public class TextScript : MonoBehaviour
     public void TextAdvance()
     {
         ResetDialogueTexts();
-        Vector3 spawnPosition = new Vector3(500, 500, 0f);
+        Vector3 spawnPosition = dialogBox.transform.position;
+        
+        #region Debug Position
+        // Debug.Log(spawnPosition.y);
+        // Debug.Log(bYMax);
+        // Debug.Log(spawnPosition.x);
+        // Debug.Log(bXMax);
+        #endregion
+
+        spawnPosition.y += bYMax;
+        spawnPosition.x = bXMax/3;
         Quaternion spawnRotation = Quaternion.identity; 
-        string[] splitTexts = currentDialogue.dialogues[currentIndex].text.ToLower().Split(skipChar);
-        for(int i = 0; i < splitTexts.Length; i++)
+        string[] pureTexts = currentDialogue.dialogues[currentIndex].text.Split(" ");
+        
+        for(int i = 0; i < pureTexts.Length; i++)
         {
-            if(splitTexts[i] != "")
+            if(pureTexts[i] != "")
             {
                 GameObject insText = Instantiate(textItem, spawnPosition, spawnRotation, transform);
                 dialogueTexts.Add(insText);
                 TextHolder textHolder = insText.GetComponent<TextHolder>();
                 if(textHolder != null)
                 {
-                    textHolder.enText.text = splitTexts[i];
-                    string dictKey = splitTexts[i].Trim(skipChar);
+                    textHolder.enText.text = pureTexts[i];
+                    string dictKey = pureTexts[i].Trim(skipChar).ToLower();
                     if(dictionary.ContainsKey(dictKey)) textHolder.idText.text = dictionary[dictKey];
                     textHolder.enText.ForceMeshUpdate();
+                    Debug.Log(pureTexts[i] + dictKey);
                     float textWidth = textHolder.enText.preferredWidth;
-                    spawnPosition.x += textWidth+ 100f;
+                    // Debug.Log(textWidth);
+                    spawnPosition.x += (textWidth*1.25f)+100f;
                 }
             }
         }

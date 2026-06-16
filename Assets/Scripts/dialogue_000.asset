@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Dialogues
   dialogues:
   - character: Merchant
-    text: You don't understand english?
+    text: You don't understand English?
   - character: Merchant
-    text: Fine, I'll teach you.
+    text: Fine, I will teach you.
+  - character: Merchant
+    text: You see that thing?
+  - character: Merchant
+    text: That is a bag.

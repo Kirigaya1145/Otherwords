@@ -1,28 +1,39 @@
 using TMPro;
 using UnityEngine;
-
+using System.Collections.Generic;
 public class WordRowUI : MonoBehaviour
 {
+    Dictionary<string, string> dictionary;
     public TMP_Text textEn;
     public TMP_Text textId;
 
-    private WordData wordData;
+    string english;
     private EditPanel editPanel;
 
-    public void Setup(WordData data, EditPanel edit)
+    void Start()
     {
-        wordData = data;
+        
+    }
+
+    public void Setup(string en, EditPanel edit)
+    {
+        dictionary = DictionaryManager.instance.dictionary;
+        english = en;
         editPanel = edit;
 
-        textEn.text = data.wordEn;
-        textId.text = data.wordId == "" ? "???" : data.wordId;
+        textEn.text = en;
+        
+        textId.text = dictionary.ContainsKey(en)? dictionary[en] : "???";
     }
+
     public void OnClick()
     {
-        editPanel.Open(wordData, this);
+        editPanel.Open(english, this);
     }
+
     public void Refresh()
     {
-        textId.text = wordData.wordId == "" ? "???" : wordData.wordId;
+        dictionary = DictionaryManager.instance.dictionary;
+        textId.text = dictionary.ContainsKey(english)? dictionary[english] : "???";
     }
 }

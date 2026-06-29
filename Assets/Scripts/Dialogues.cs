@@ -12,15 +12,4 @@ public class Dialogue
 public class Dialogues : ScriptableObject
 {
     public List<Dialogue> dialogues = new List<Dialogue>();
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

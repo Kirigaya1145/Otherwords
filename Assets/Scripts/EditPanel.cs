@@ -15,11 +15,6 @@ public class EditPanel : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void Open(string en, WordRowUI row)
     {
         english = en;
@@ -35,6 +30,10 @@ public class EditPanel : MonoBehaviour
     public void Save()
     {
         dictionary[english] = inputField.text;
+        //Coba PlayerPref
+        PlayerPrefs.SetString(english, inputField.text);
+        PlayerPrefs.Save();
+
         if (currentRow != null) currentRow.Refresh();
         gameObject.SetActive(false);
     }

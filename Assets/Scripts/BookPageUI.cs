@@ -17,11 +17,6 @@ public class BookPageUI : MonoBehaviour
         SpawnWords();
     }
 
-    void OnEnable()
-    {
-        
-    }
-
     void SpawnWords()
     {
         foreach (var row in _rows) Destroy(row.gameObject);

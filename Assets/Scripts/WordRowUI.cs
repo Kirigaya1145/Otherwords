@@ -10,11 +10,6 @@ public class WordRowUI : MonoBehaviour
     string english;
     private EditPanel editPanel;
 
-    void Start()
-    {
-        
-    }
-
     public void Setup(string en, EditPanel edit)
     {
         dictionary = DictionaryManager.instance.dictionary;

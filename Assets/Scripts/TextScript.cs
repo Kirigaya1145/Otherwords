@@ -18,6 +18,10 @@ public class TextScript : MonoBehaviour
     public GameObject textItem;
     public char[] skipChar = new char[] { ',', '.', ';', ' ', '?', '!' };
     public List<GameObject> dialogueTexts = new List<GameObject>();
+
+    //ngetes layout container
+    public Transform wordContainer;
+    public bool isTalking = false;
     void Start()
     {
         dictionary = DictionaryManager.instance.dictionary;
@@ -30,17 +34,11 @@ public class TextScript : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void OnAttack()
     {
         TextAdvance();
     }
-
+  
     public void OnInteract()
     {
         TextAdvance();
@@ -54,10 +52,11 @@ public class TextScript : MonoBehaviour
             TextAdvance();
         }
     }
-
     public void TextAdvance()
     {
+        isTalking = true;
         ResetDialogueTexts();
+        /*Tes ubah pakai HorizontalLayout
         Vector3 spawnPosition = dialogBox.transform.position;
         
         #region Debug Position
@@ -69,14 +68,16 @@ public class TextScript : MonoBehaviour
 
         spawnPosition.y += bYMax;
         spawnPosition.x = bXMax/3;
-        Quaternion spawnRotation = Quaternion.identity; 
+        Quaternion spawnRotation = Quaternion.identity; */
+
         string[] pureTexts = currentDialogue.dialogues[currentIndex].text.Split(" ");
         
         for(int i = 0; i < pureTexts.Length; i++)
         {
             if(pureTexts[i] != "")
             {
-                GameObject insText = Instantiate(textItem, spawnPosition, spawnRotation, transform);
+                //GameObject insText = Instantiate(textItem, spawnPosition, spawnRotation, transform);
+                GameObject insText = Instantiate(textItem, wordContainer);
                 dialogueTexts.Add(insText);
                 TextHolder textHolder = insText.GetComponent<TextHolder>();
                 if(textHolder != null)
@@ -86,14 +87,25 @@ public class TextScript : MonoBehaviour
                     if(dictionary.ContainsKey(dictKey)) textHolder.idText.text = dictionary[dictKey];
                     textHolder.enText.ForceMeshUpdate();
                     Debug.Log(pureTexts[i] + dictKey);
+
+                    /* Tes ubah pakai HorizontalLayout ubah Spacing di panelDialog
                     float textWidth = textHolder.enText.preferredWidth;
                     // Debug.Log(textWidth);
-                    spawnPosition.x += (textWidth*1.25f)+100f;
+                    spawnPosition.x += (textWidth*1.25f)+100f;*/
                 }
             }
         }
         
-        if(currentIndex < currentDialogue.dialogues.Count - 1)currentIndex++;
+        if(currentIndex < currentDialogue.dialogues.Count - 1)
+        {
+            currentIndex++;
+        }
+        else
+        {
+            isTalking = false;
+            currentDialogue = null;
+            dialogBox.SetActive(false);
+        }
     }
 
     public void ResetDialogueTexts()

@@ -19,12 +19,26 @@ public class DictionaryManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
 
+
+
+        LoadPref("i");
+        LoadPref("you");
+        LoadPref("they");
+        LoadPref("that");
+        LoadPref("this");
+        LoadPref("bag");
+        LoadPref("road");
+        /* Coba playerPref
         dictionary.Add("i", "aku");
         dictionary.Add("you", "kamu");
         dictionary.Add("they", "?");
         dictionary.Add("that", "itu");
         dictionary.Add("this", "?");
         dictionary.Add("bag", "?");
-        dictionary.Add("road", "?");
+        dictionary.Add("road", "?");*/
+    }
+    void LoadPref(string word)
+    {
+        dictionary[word] = PlayerPrefs.GetString(word, "?");
     }
 }

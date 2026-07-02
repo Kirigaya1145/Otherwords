@@ -55,6 +55,14 @@ public class TextScript : MonoBehaviour
     public void TextAdvance()
     {
         isTalking = true;
+
+        if (currentIndex > currentDialogue.dialogues.Count - 1)
+        {
+            isTalking = false;
+            currentDialogue = null;
+            dialogBox.SetActive(false);
+            return;
+        }
         ResetDialogueTexts();
         /*Tes ubah pakai HorizontalLayout
         Vector3 spawnPosition = dialogBox.transform.position;
@@ -95,17 +103,8 @@ public class TextScript : MonoBehaviour
                 }
             }
         }
-        
-        if(currentIndex < currentDialogue.dialogues.Count - 1)
-        {
-            currentIndex++;
-        }
-        else
-        {
-            isTalking = false;
-            currentDialogue = null;
-            dialogBox.SetActive(false);
-        }
+        currentIndex++;
+
     }
 
     public void ResetDialogueTexts()
